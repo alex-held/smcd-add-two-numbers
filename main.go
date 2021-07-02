@@ -34,7 +34,7 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	}
 
 	if (l1.Val + l2.Val) > 9 {
-		if( l1.Next == nil){
+		if l1.Next == nil{
 			l1.Next = &ListNode{Val: 1}
 		} else {
 			l1.Next.Val += 1
