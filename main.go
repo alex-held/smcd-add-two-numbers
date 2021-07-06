@@ -6,14 +6,28 @@ type ListNode struct {
 	Next *ListNode
 }
 
-func New(value int) *ListNode {
+func FromInt(value int) *ListNode {
 	if value < 0 {
 		return nil
 	}
 	if value < 10 {
 		return &ListNode{Val: value}
 	}
-	return &ListNode{Val: value % 10, Next: New(value / 10)}
+	return &ListNode{Val: value % 10, Next: FromInt(value / 10)}
+}
+
+func FromString(value string) *ListNode {
+	if value == "" || isNegative(value) {
+		return nil
+	}
+
+	lastDigitIndex := len(value) - 1
+	digit := int(value[lastDigitIndex] - '0')
+	return &ListNode{Val: digit, Next: FromString(value[:lastDigitIndex])}
+}
+
+func isNegative(value string) bool {
+	return value[0] == '-'
 }
 
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
@@ -37,7 +51,6 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 		}
 	}
 
-
 	return &ListNode{
 		Val:  (l1.Val + l2.Val) % 10,
 		Next: addTwoNumbers(l1.Next, l2.Next),
@@ -47,4 +60,3 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 func hasSumCarryOver(l1 *ListNode, l2 *ListNode) bool {
 	return (l1.Val + l2.Val) > 9
 }
-
