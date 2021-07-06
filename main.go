@@ -1,12 +1,5 @@
 package main
 
-import (
-	"fmt"
-)
-
-func main() {
-	fmt.Println("vim-go")
-}
 
 type ListNode struct {
 	Val  int
@@ -33,8 +26,8 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 		return l1
 	}
 
-	if (l1.Val + l2.Val) > 9 {
-		if l1.Next == nil{
+	if hasSumCarryOver(l1, l2) {
+		if l1.Next == nil {
 			l1.Next = &ListNode{Val: 1}
 		} else {
 			l1.Next.Val += 1
@@ -44,8 +37,14 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 		}
 	}
 
+
 	return &ListNode{
 		Val:  (l1.Val + l2.Val) % 10,
 		Next: addTwoNumbers(l1.Next, l2.Next),
 	}
 }
+
+func hasSumCarryOver(l1 *ListNode, l2 *ListNode) bool {
+	return (l1.Val + l2.Val) > 9
+}
+

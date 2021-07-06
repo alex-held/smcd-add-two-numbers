@@ -11,14 +11,6 @@ func TestEmptyLinkedListDoesNotContainNext(t *testing.T) {
 	assert.Nil(t, sut.Next)
 }
 
-// func TestAdditionWithInternalCarryOver(t *testing.T) {
-// 	assert.Failf(t, "Not implemented", "")
-// }
-
-// func TestCarryBiggerThanOne(t *testing.T) {
-// 	// TBD next time
-// }
-
 func TestAddTwoNumbersWithTableDataStructure(t *testing.T) {
 	tableData := []struct {
 		desc     string
@@ -37,6 +29,7 @@ func TestAddTwoNumbersWithTableDataStructure(t *testing.T) {
 		{desc: "999 + 2 = 1001 -> external carryover more than 1 time", input1: 999, input2: 2, expected: New(1001)},
 		{desc: "0 + 0 = 0 -> Testing Example 2 of given expectation", input1: 0, input2: 0, expected: New(0)},
 		{desc: "342 + 465 = 807 -> Testing Example 1 of given expectation", input1: 342, input2: 465, expected: New(807)},
+		{desc: "1234 + 1 = 1235 -> Second Argument shorter than first one", input1: 1234, input2:1, expected: New(1235)},
 	}
 	for _, v := range tableData {
 		t.Run(v.desc, func(t *testing.T) {
@@ -48,52 +41,57 @@ func TestAddTwoNumbersWithTableDataStructure(t *testing.T) {
 
 func TestConstructorForListNodesWithInteger(t *testing.T) {
 	tcs := []struct {
-		expected ListNode
+		expected *ListNode
 		input    int
 		desc     string
 	}{
 		{
+			desc:     "-1",
+			input:    -1,
+			expected: nil,
+		},
+		{
 			desc:     "21",
 			input:    21,
-			expected: ListNode{Val: 1, Next: &ListNode{Val: 2}},
+			expected: &ListNode{Val: 1, Next: &ListNode{Val: 2}},
 		},
 		{
 			desc:     "22",
 			input:    22,
-			expected: ListNode{Val: 2, Next: &ListNode{Val: 2}},
+			expected: &ListNode{Val: 2, Next: &ListNode{Val: 2}},
 		},
 		{
 			desc:     "1",
 			input:    1,
-			expected: ListNode{Val: 1},
+			expected: &ListNode{Val: 1},
 		},
 		{
 			desc:     "2",
 			input:    2,
-			expected: ListNode{Val: 2},
+			expected: &ListNode{Val: 2},
 		}, {
 			desc:     "54321",
 			input:    54321,
-			expected: ListNode{Val: 1, Next: &ListNode{Val: 2, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: &ListNode{Val: 5}}}}},
+			expected: &ListNode{Val: 1, Next: &ListNode{Val: 2, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: &ListNode{Val: 5}}}}},
 		}, {
 			desc:     "0",
 			input:    0,
-			expected: ListNode{Val: 0},
+			expected: &ListNode{Val: 0},
 		}, {
 			desc:     "504",
 			input:    504,
-			expected: ListNode{Val: 4, Next: &ListNode{Val: 0, Next: &ListNode{Val: 5}}},
+			expected: &ListNode{Val: 4, Next: &ListNode{Val: 0, Next: &ListNode{Val: 5}}},
 		}, {
 			desc:     "500",
 			input:    500,
-			expected: ListNode{Val: 0, Next: &ListNode{Val: 0, Next: &ListNode{Val: 5}}},
+			expected: &ListNode{Val: 0, Next: &ListNode{Val: 0, Next: &ListNode{Val: 5}}},
 		},
 	}
 
 	for _, v := range tcs {
 		t.Run(v.desc, func(t *testing.T) {
 			actual := New(v.input)
-			assert.Equal(t, v.expected, *actual)
+			assert.Equal(t, v.expected, actual)
 		})
 	}
 }
